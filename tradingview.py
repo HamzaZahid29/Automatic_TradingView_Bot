@@ -13,8 +13,8 @@ import random
 class TradingView:
     # creating constructor
     def __init__(self):
-        self.username='govaho920@gmail.com'
-        self.password='govaho920@gmail.com'
+        self.username='ahmadmalik9807@gmail.com'
+        self.password='Ahmad@123Ali'
         self.options=self.chromeOptions()
         self.driver=webdriver.Chrome(options=self.options)
         self.apply_sealth(self.driver)
