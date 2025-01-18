@@ -1,5 +1,6 @@
-from tradingview import TradingView
+from Scraper import TradingView
 
-if __name__=='__main__':
-    Bot = TradingView()
+def Bot(Captcha_API,Username,password):
+    Bot = TradingView(Captcha_API,Username,password)
     Bot.Login()
+    Bot.openChart()    
