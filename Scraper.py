@@ -4,6 +4,7 @@ from selenium.common.exceptions import TimeoutException,StaleElementReferenceExc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from tradingbinance.bi__api__ import main_api_container
 from selenium_stealth import stealth
 from twocaptcha import TwoCaptcha
 from time import sleep
@@ -170,15 +171,18 @@ class TradingView:
 
                         # making json object    
                         data={
+                                'type':'spot', #connect db type here                         
                                 'Price':Price,
                                 'Symbol':symbol,
                                 'Time':time,
-                                'Signal':signal
+                                'Signal':signal,
+                                'Quantity':0.01 #set quantity here
                             } 
 
                         # pass that object to api method now    
                         if data['Price'] and data['Signal'] and data['Time'] and data['Symbol']:
                             print(data)
+                            main_api_container(data)
 
                         try:
                             close_alert=get_alert.find_element(By.CSS_SELECTOR,'div.closeButton-ZZzgDlel')    
