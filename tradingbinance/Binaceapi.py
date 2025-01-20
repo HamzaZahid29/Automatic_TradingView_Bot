@@ -5,6 +5,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 # import config file
 from config import api_key,api_sec
+from helper.Log import insertlog
 from binance.client import Client
 
 class BinanceApi:
@@ -41,6 +42,7 @@ class BinanceApi:
                 #   execute buy Api
                 order=self.client.create_order(symbol=symbol,side=Client.SIDE_BUY,type=Client.ORDER_TYPE_MARKET,quantity=quantity)
                 print('Order Created SuccessFully......')
+                insertlog(data_dict)
                 return order
             except Exception as e:
                 print('error while creating buy spot order')    
@@ -50,6 +52,7 @@ class BinanceApi:
             try:
                 order=self.client.create_order(symbol=symbol,side=Client.SIDE_SELL,type=Client.ORDER_TYPE_MARKET,quantity=quantity)
                 print('Market Sell Order successfully created!')
+                insertlog(data_dict)
                 return order
             except Exception as e:
                 print('error while creating sell spot order')    
@@ -58,6 +61,7 @@ class BinanceApi:
               try:
                   order=self.client.order_limit_sell(symbol=symbol,quantity=quantity,price=str(price))
                   print("Spot BTP order created:")
+                  insertlog(data_dict)
                   return order
               except Exception as e:
                   print('got an exception while btp spot order',e)            
@@ -66,6 +70,7 @@ class BinanceApi:
               try:
                   order=self.client.order_limit_buy(symbol=symbol,quantity=quantity,price=str(price))
                   print("Spot STP order created:")
+                  insertlog(data_dict)
                   return order
               except Exception as e:
                   print('got an exception while stp order spot',e)             
@@ -91,6 +96,7 @@ class BinanceApi:
                 try:
                     order=self.client.futures_create_order(symbol=symbol,side=Client.SIDE_SELL,type=Client.FUTURE_ORDER_TYPE_MARKET,quantity=quantity)
                     print('Futures Order Successful:')
+                    insertlog(data_dict)
                     return order
                 except Exception as e:
                     print('Got Expection in future create order',e)    
@@ -99,6 +105,7 @@ class BinanceApi:
                 try:
                     order=self.client.futures_create_order(symbol=symbol,side=Client.SIDE_SELL,type=Client.FUTURE_ORDER_TYPE_MARKET,quantity=quantity)        
                     print('Futures Order Successful: for sell')
+                    insertlog(data_dict)
                     return order
                 except Exception as e:
                     print('Got Expection in future create order sell ',e)    
@@ -107,6 +114,7 @@ class BinanceApi:
                 try:
                     order=self.client.futures_create_order(symbol=symbol,side=Client.SIDE_BUY,type=Client.FUTURE_ORDER_TYPE_TAKE_PROFIT_MARKET,quantity=quantity,stopPrice=take_profit_price)
                     print('BTP Order Created:')
+                    insertlog(data_dict)
                     return order
                 except Exception as e:
                     print('got an expenstion in future btp trade',e)            
@@ -115,6 +123,7 @@ class BinanceApi:
                 try:
                     order=self.client.futures_create_order(symbol=symbol,side=Client.SIDE_SELL,type=Client.FUTURE_ORDER_TYPE_STOP_MARKET,quantity=quantity,stopPrice=stop_loss_price)
                     print('STP Order Created:')
+                    insertlog(data_dict)
                     return order
                 except Exception as e:
                     print('got an expenstion in future stp trade',e)            
