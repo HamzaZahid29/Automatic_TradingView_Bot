@@ -4,7 +4,7 @@ from enum import Enum
 # enums fields
 class keyType(Enum):
     SPOT = "spot"
-    FUTURES = "futures"
+    FUTURES = "future"
 
 # built schema now    
 class keySchema(Schema):

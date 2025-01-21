@@ -1,7 +1,6 @@
 from pymongo import MongoClient
 import sys
 import os
-# add main directoty of the project
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR)) 
 from config import mongouri
