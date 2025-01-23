@@ -32,6 +32,7 @@ class TradingView:
         options.add_argument('--start-maximized')
         options.add_argument('--incognito')
         options.add_argument('--disable-extensions')
+        # options.add_argument('--headless')
         return options
 
     # create the sealth method    
@@ -140,7 +141,7 @@ class TradingView:
                         except TimeoutException as e:
                             print('Miss Symbol')    
                         try:
-                            get_price=get_alert.find_element(By.CSS_SELECTOR,'span.description-_YHAw05g')
+                            get_price=get_alert.find_element(By.CSS_SELECTOR,'span.description-FoZESLBk')
                             # extract number parts    
                             pattern=r"\d{1,3}(?:,\d{3})*(?:\.\d+)?"
                             match=re.search(pattern,get_price.text)
@@ -150,7 +151,9 @@ class TradingView:
                             else:
                                 Price=get_price.text 
                         except TimeoutException as e:
-                            print('Miss Price')    
+                            print('Miss Price')
+                        except Exception as e:
+                            pass        
                         
 
                         # handling the checkes in the code                   
@@ -160,10 +163,10 @@ class TradingView:
                         elif 'Sell Signal'.lower() in msg.lower():
                             signal='Sell'
                             print('send request to Binance Api For Selling')    
-                        elif 'btp' in msg.lower():
+                        elif 'BTP Signal'.lower() in msg.lower():
                             signal='BTP'
                             print('call btp')    
-                        elif 'stp' in msg.lower():
+                        elif 'STP Signal'.lower() in msg.lower():
                             signal='STP'
                             print('call stp')    
                         else:

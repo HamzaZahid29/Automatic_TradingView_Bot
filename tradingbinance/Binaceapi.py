@@ -4,15 +4,15 @@ import os
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 # import config file
-from config import api_key,api_sec
+from config.config import Config
 from helper.Log import insertlog
 from binance.client import Client
 
 class BinanceApi:
     # generating constructor
     def __init__(self):
-        self.sec=api_sec
-        self.key=api_key
+        self.sec=Config.api_sec
+        self.key=Config.api_key
         self.client=Client(self.key,self.sec)
     # check crypto price    
     def getcryptoprice(self):

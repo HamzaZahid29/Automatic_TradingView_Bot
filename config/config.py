@@ -1,9 +1,15 @@
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 class Config:
-    Captcha_API=os.getenv('twocaptchaKey')
-    Username=os.getenv('usename')
-    password=os.getenv('password')
-    api_key=os.getenv('Binacekey')
-    api_sec=os.getenv('binacesecret')
-    mongouri=os.getenv('mongourl')
+
+    Captcha_API = os.getenv('twocaptchaKey')
+    Username = os.getenv('username')  
+    password = os.getenv('password')
+    api_key = os.getenv('Binacekey')  
+    api_sec = os.getenv('binacesecret')  
+    mongoUri = os.getenv('mongoUri')
+    db_Host=os.getenv("DB_HOST")
+    db_port=os.getenv("DB_PORT")
+
