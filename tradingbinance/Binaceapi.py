@@ -56,20 +56,7 @@ class BinanceApi:
                 return order
             except Exception as e:
                 print('error while creating sell spot order')    
-
-          elif 'btp' in signal:
-              try:
-                  insertlog(data_dict)
-                  return order
-              except Exception as e:
-                  print('got an exception while btp spot order',e)            
-
-          elif 'stp' in signal:
-              try:
-                  insertlog(data_dict)
-                  return order
-              except Exception as e:
-                  print('got an exception while stp order spot',e)             
+           
                 
         except Exception as e:
             print('Facing Issue While Create Order For Spot',e)    
@@ -106,22 +93,52 @@ class BinanceApi:
                 except Exception as e:
                     print('Got Expection in future create order sell ',e)    
 
-            if 'btp' in signal:
+            elif 'btp' in signal:
                 try:
+                    order=self.client.futures_create_order(symbol=symbol,side=Client.SIDE_BUY,type=Client.FUTURE_ORDER_TYPE_TAKE_PROFIT_MARKET,quantity=quantity,stopPrice=take_profit_price)
+                    print('BTP Order Created:')
                     insertlog(data_dict)
                     return order
                 except Exception as e:
                     print('got an expenstion in future btp trade',e)            
 
-            if 'stp' in signal:
+            elif 'stp' in signal:
                 try:
+                    order=self.client.futures_create_order(symbol=symbol,side=Client.SIDE_SELL,type=Client.FUTURE_ORDER_TYPE_STOP_MARKET,quantity=quantity,stopPrice=stop_loss_price)
+                    print('STP Order Created:')
                     insertlog(data_dict)
                     return order
                 except Exception as e:
-                    print('got an expenstion in future stp trade',e)            
-
+                    print('got an expenstion in future stp trade',e)             
+            elif 'bsl' in signal:
+                try:
+                    order=self.client.futures_create_order(symbol=symbol,side=Client.SIDE_BUY,type=Client.FUTURE_ORDER_TYPE_STOP_MARKET,stopPrice=take_profit_price,
+                quantity=quantity,               
+                timeInForce="GTC" )
+                    insertlog(data_dict)
+                    print('order triggered for bsl')
+                    return order
+                except Exception as e:
+                    print('got an exception while call api for bsl signal',e)            
+            elif 'ssl' in signal:
+                try:
+                    order=self.client.futures_create_order(symbol=symbol,
+            side=Client.SIDE_SELL,                # Selling to limit losses
+            type=Client.FUTURE_ORDER_TYPE_STOP,          # Stop-Limit order type
+            stopPrice=stop_loss_price,            # Trigger price
+            price=price,                          # Limit price
+            quantity=quantity,                    # Quantity to sell
+            timeInForce="GTC" )
+                    print('ssl order created')
+                    insertlog(data_dict)
+                    return order
+                except Exception as e:
+                    print('Got An Exception While SSL order trigger',e)            
+            else:
+                print('Invalid Signal')
         except Exception as e:
             print('Facing Issue While Create Order For Future',e)    
+
 
 
    
