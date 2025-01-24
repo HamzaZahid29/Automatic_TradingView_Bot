@@ -8,8 +8,8 @@ from tradingbinance.bi__api__ import main_api_container
 from selenium_stealth import stealth
 from twocaptcha import TwoCaptcha
 from time import sleep
+from helper.extractprice import give_me_symbol_price
 import random
-import re
 
 # intailize the class
 class TradingView:
@@ -138,22 +138,16 @@ class TradingView:
                         try:
                             get_symbol=get_alert.find_element(By.CSS_SELECTOR,'div.text-LoO6TyUc.ellipsis-LoO6TyUc')    
                             symbol=get_symbol.text
+                            print(symbol)
                         except TimeoutException as e:
                             print('Miss Symbol')    
-                        try:
-                            get_price=get_alert.find_element(By.CSS_SELECTOR,'span.description-FoZESLBk')
-                            # extract number parts    
-                            pattern=r"\d{1,3}(?:,\d{3})*(?:\.\d+)?"
-                            match=re.search(pattern,get_price.text)
-                            if match:    
-                             number=match.group()
-                             Price = float(number.replace(",", ""))
-                            else:
-                                Price=get_price.text 
-                        except TimeoutException as e:
-                            print('Miss Price')
-                        except Exception as e:
-                            pass        
+                        if symbol:
+                            try:
+                             Price=give_me_symbol_price(symbol) 
+                            except TimeoutException as e:
+                                print('Miss Price')
+                            except Exception as e:
+                                print('Got An exception')        
                         
 
                         # handling the checkes in the code                   
@@ -174,12 +168,12 @@ class TradingView:
 
                         # making json object    
                         data={
-                                'type':'spot', #connect db type here                         
+                                'type':'spot',                          
                                 'Price':Price,
                                 'Symbol':symbol,
                                 'Time':time,
                                 'Signal':signal,
-                                'Quantity':0.01 #set quantity here
+                                'Quantity':0.01 
                             } 
 
                         # pass that object to api method now    
@@ -208,7 +202,7 @@ class TradingView:
         simple method which open the url of chart
         '''
         try:
-                self.driver.get('https://www.tradingview.com/chart/iohfjhRH/')
+                self.driver.get('https://www.tradingview.com/chart/iohfjhRH/?symbol=INDEX%3ABTCUSD')
                 sleep(1)
                 # here we just calling analyze the chart
                 self.analyzeChart()

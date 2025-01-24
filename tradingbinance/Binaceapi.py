@@ -15,8 +15,8 @@ class BinanceApi:
         self.key=Config.api_key
         self.client=Client(self.key,self.sec)
     # check crypto price    
-    def getcryptoprice(self):
-        btc_price=self.client.get_symbol_ticker(symbol="BTCUSDT")
+    def getcryptoprice(self,symbol):
+        btc_price=self.client.get_symbol_ticker(symbol=symbol)
         print(btc_price)
     # check balance    
     def check_balance(self):
@@ -59,8 +59,6 @@ class BinanceApi:
 
           elif 'btp' in signal:
               try:
-                  order=self.client.order_limit_sell(symbol=symbol,quantity=quantity,price=str(price))
-                  print("Spot BTP order created:")
                   insertlog(data_dict)
                   return order
               except Exception as e:
@@ -68,8 +66,6 @@ class BinanceApi:
 
           elif 'stp' in signal:
               try:
-                  order=self.client.order_limit_buy(symbol=symbol,quantity=quantity,price=str(price))
-                  print("Spot STP order created:")
                   insertlog(data_dict)
                   return order
               except Exception as e:
@@ -112,8 +108,6 @@ class BinanceApi:
 
             if 'btp' in signal:
                 try:
-                    order=self.client.futures_create_order(symbol=symbol,side=Client.SIDE_BUY,type=Client.FUTURE_ORDER_TYPE_TAKE_PROFIT_MARKET,quantity=quantity,stopPrice=take_profit_price)
-                    print('BTP Order Created:')
                     insertlog(data_dict)
                     return order
                 except Exception as e:
@@ -121,8 +115,6 @@ class BinanceApi:
 
             if 'stp' in signal:
                 try:
-                    order=self.client.futures_create_order(symbol=symbol,side=Client.SIDE_SELL,type=Client.FUTURE_ORDER_TYPE_STOP_MARKET,quantity=quantity,stopPrice=stop_loss_price)
-                    print('STP Order Created:')
                     insertlog(data_dict)
                     return order
                 except Exception as e:
