@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from tradingbinance.bi__api__ import main_api_container
 from selenium_stealth import stealth
 from twocaptcha import TwoCaptcha
+from seleniumbase import Driver
 from time import sleep
 from helper.extractprice import give_me_symbol_price
 import random
@@ -23,7 +24,8 @@ class TradingView:
         self.password=password
         self.options=self.chromeOptions()
         self.solver=TwoCaptcha(Captcha_API)
-        self.driver=webdriver.Chrome(options=self.options)
+        # self.driver = webdriver.Chrome(options=self.options)
+        self.driver = Driver(uc=True,headed=True,proxy="odyuipwr-rotate:o3aagt6vgwds@p.webshare.io:80")
         self.apply_sealth(self.driver)
 
     # creating the options method    
@@ -32,7 +34,6 @@ class TradingView:
         options.add_argument('--start-maximized')
         options.add_argument('--incognito')
         options.add_argument('--disable-extensions')
-        # options.add_argument('--headless')
         return options
 
     # create the sealth method    
@@ -158,17 +159,23 @@ class TradingView:
                             signal='Sell'
                             print('send request to Binance Api For Selling')    
                         elif 'BTP Signal'.lower() in msg.lower():
-                            signal='BTP'
+                            signal='Btp'
                             print('call btp')    
                         elif 'STP Signal'.lower() in msg.lower():
-                            signal='STP'
+                            signal='Stp'
                             print('call stp')    
+                        elif 'SSL Signal'.lower() in msg.lower():
+                            signal='Ssl'
+                            print('call SSL')    
+                        elif 'BSL Signal'.lower() in msg.lower():
+                            signal='Bsl'
+                            print('call BSL')    
                         else:
                             print('invalid signal')    
 
                         # making json object    
                         data={
-                                'type':'spot',                          
+                                'type':'future',                          
                                 'Price':Price,
                                 'Symbol':symbol,
                                 'Time':time,
@@ -202,7 +209,7 @@ class TradingView:
         simple method which open the url of chart
         '''
         try:
-                self.driver.get('https://www.tradingview.com/chart/iohfjhRH/?symbol=INDEX%3ABTCUSD')
+                self.driver.get('https://www.tradingview.com/chart/vZbJVznC/?symbol=BINANCE%3AVTHOUSDT')
                 sleep(1)
                 # here we just calling analyze the chart
                 self.analyzeChart()

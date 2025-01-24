@@ -16,7 +16,7 @@ class Connection:
                 print("Attempting to connect to MongoDB...")
                 ca = certifi.where()
                 # cls._client = MongoClient(Config.mongoUri)
-                cls._client=MongoClient(Config.db_Host,int(Config.db_port))
+                cls._client=MongoClient(Config.mongoUri)
                 cls._client.admin.command('ping') 
                 print("Successfully connected to MongoDB!")
             except Exception as e:

@@ -7,6 +7,7 @@ from Database.connection import Connection
 
 def insertlog(data):
     try:
+        print(data)
         logcol = Connection.get_logs_col()
         result=logcol.insert_one(data)
         return result
