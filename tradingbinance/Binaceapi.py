@@ -56,7 +56,7 @@ class BinanceApi:
           elif 'sell' in signal:
             #   execute sell Api    
             try:
-                order=self.client.create_order(symbol=symbol,side=Client.SIDE_SELL,type=Client.ORDER_TYPE_MARKET,quantity=quantity)
+                order=self.client.create_order(symbol=symbol,side=Client.SIDE_SELL,type=Client.ORDER_TYPE_MARKET,quantity=min_quantity)
                 print('Market Sell Order successfully created!')
                 insertlog(data_dict)
                 return order

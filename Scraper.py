@@ -7,7 +7,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from tradingbinance.bi__api__ import main_api_container
 from selenium_stealth import stealth
 from twocaptcha import TwoCaptcha
-from seleniumbase import Driver
 from time import sleep
 from helper.extractprice import give_me_symbol_price
 import random
