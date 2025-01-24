@@ -24,8 +24,7 @@ class TradingView:
         self.password=password
         self.options=self.chromeOptions()
         self.solver=TwoCaptcha(Captcha_API)
-        # self.driver = webdriver.Chrome(options=self.options)
-        self.driver = Driver(uc=True,headed=True,proxy="odyuipwr-rotate:o3aagt6vgwds@p.webshare.io:80")
+        self.driver=webdriver.Chrome(options=self.options)
         self.apply_sealth(self.driver)
 
     # creating the options method    

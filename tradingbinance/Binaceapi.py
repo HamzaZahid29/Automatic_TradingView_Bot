@@ -53,14 +53,29 @@ class BinanceApi:
            except Exception as e:
                print('Bug In Spot For Buy',e)    
 
-          if 'Sell'.lower() in signal:
+          elif 'sell' in signal:
+            #   execute sell Api    
+            try:
+                order=self.client.create_order(symbol=symbol,side=Client.SIDE_SELL,type=Client.ORDER_TYPE_MARKET,quantity=quantity)
+                print('Market Sell Order successfully created!')
+                insertlog(data_dict)
+                return order
+            except Exception as e:
+                print('error while creating sell spot order')    
+
+          elif 'btp' in signal:
               try:
-                  order=self.client.create_order(symbol=symbol,side=Client.SIDE_SELL,type='MARKET',quantity=min_quantity)
-                  print('sell order placed')
                   insertlog(data_dict)
                   return order
               except Exception as e:
-                  print('Bug In Sell Trade For Spot',e)         
+                  print('got an exception while btp spot order',e)            
+
+          elif 'stp' in signal:
+              try:
+                  insertlog(data_dict)
+                  return order
+              except Exception as e:
+                  print('got an exception while stp order spot',e)             
                 
         except Exception as e:
             print('Facing Issue While Create Order For Spot',e)    
@@ -95,25 +110,23 @@ class BinanceApi:
                 except Exception as e:
                     print('Got An Exeption as futures sell',e)    
 
-              # BTP (Take Profit) Order
-            elif 'btp' in signal:
+            if 'btp' in signal:
                 try:
-                    order = self.client.futures_create_order(
-                        symbol=symbol,
-                        side=Client.SIDE_BUY,
-                        type=Client.FUTURE_ORDER_TYPE_TAKE_PROFIT_MARKET,
-                        quantity=min_quantity,
-                        stopPrice=take_profit_price
-                    )
-                    print('BTP Order Created Successfully')
                     insertlog(data_dict)
                     return order
                 except Exception as e:
-                    print('Error creating BTP order:', e )
+                    print('got an expenstion in future btp trade',e)            
 
+            if 'stp' in signal:
+                try:
+                    insertlog(data_dict)
+                    return order
+                except Exception as e:
+                    print('got an expenstion in future stp trade',e)            
 
         except Exception as e:
             print('Facing Issue While Create Order For Future',e)    
+
 
 
 
