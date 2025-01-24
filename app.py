@@ -69,8 +69,8 @@ def on_connect():
     start_data_thread()
 
 # Bot function to start scraping
-def Bot(Captcha_API, Username, password):
-    Bot = TradingView(Captcha_API, Username, password)
+def Bot(Captcha_API,Username,password):
+    Bot = TradingView(Captcha_API,Username,password)
     Bot.Login()
     Bot.openChart()
 
