@@ -60,4 +60,5 @@ class Connection:
             else:
                 print("Database 'tradeView' is not accessible.")
         return cls._logs_col
+ 
 

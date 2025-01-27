@@ -15,6 +15,7 @@ class keySchema(Schema):
         error_messages={"required": "API secret is required."},
     )
     type = fields.String(required=True, error_messages={"required": "Type is invalid."})
+    quantity=fields.String(required=True,error_messages={"required": "qunatity is invalid."})
 
     # Validate 'type' field (Must be in the Enum values)
     @validates('type')

@@ -8,8 +8,11 @@ from tradingbinance.bi__api__ import main_api_container
 from selenium_stealth import stealth
 from twocaptcha import TwoCaptcha
 from time import sleep
+from seleniumbase import Driver
 from helper.extractprice import give_me_symbol_price
+from helper.extract_qunatity_type import mongodata
 import random
+data=mongodata()
 
 # intailize the class
 class TradingView:
@@ -21,18 +24,13 @@ class TradingView:
         # class attributes    
         self.username=Username
         self.password=password
-        self.options=self.chromeOptions()
         self.solver=TwoCaptcha(Captcha_API)
-        self.driver=webdriver.Chrome(options=self.options)
-        self.apply_sealth(self.driver)
-
-    # creating the options method    
-    def chromeOptions(self):
-        options=webdriver.ChromeOptions()
-        options.add_argument('--start-maximized')
-        options.add_argument('--incognito')
-        options.add_argument('--disable-extensions')
-        return options
+        self.driver=Driver(uc=True,headed=True,proxy="odyuipwr-rotate:o3aagt6vgwds@p.webshare.io:80")
+        self.driver=Driver(headless=True)
+        self.tradeType=data['type']
+        self.tradeQuantity=data['qunatity']
+        print(self.tradeType,self.tradeQuantity)
+        self.apply_sealth(self.driver)  
 
     # create the sealth method    
     def apply_sealth(self,driver):
@@ -66,7 +64,6 @@ class TradingView:
                 sleep(2)
                 submit_form=WebDriverWait(self.driver,10).until(EC.visibility_of_element_located((By.XPATH,'/html/body/div[8]/div/div/div[1]/div/div[2]/div[2]/div/div/div/form/button')))
                 submit_form.click()
-                print('Login Successfull.....')
                 sleep(2)
                 try:
                     # genrating g-token for preventing the bot detection
@@ -84,6 +81,7 @@ class TradingView:
                     sleep(7)
                     submit_form.click()
                     sleep(4)
+                    print('Login Successfull.....')
                 except TimeoutException as e:
                     print('Got An Undected Captcha')    
             except TimeoutException as e:
@@ -173,12 +171,12 @@ class TradingView:
 
                         # making json object    
                         data={
-                                'type':'future',                          
+                                'type':self.tradeType,                          
                                 'Price':Price,
                                 'Symbol':symbol,
                                 'Time':time,
                                 'Signal':signal,
-                                'Quantity':0.01 
+                                'Quantity':self.tradeQuantity
                             } 
 
                         # pass that object to api method now    
@@ -207,7 +205,7 @@ class TradingView:
         simple method which open the url of chart
         '''
         try:
-                self.driver.get('https://www.tradingview.com/chart/vZbJVznC/?symbol=BINANCE%3AVTHOUSDT')
+                self.driver.get("https://www.tradingview.com/chart/iohfjhRH/")
                 sleep(1)
                 # here we just calling analyze the chart
                 self.analyzeChart()
